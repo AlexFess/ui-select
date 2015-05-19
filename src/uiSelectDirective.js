@@ -190,17 +190,7 @@ uis.directive('uiSelect',
           }
 
           if (!contains && !$select.clickTriggeredSelect) {
-            var skipFocusser;
-            if (!$select.skipFocusser) {
-              //Will lose focus only with certain targets
-              var focusableControls = ['input','button','textarea','select'];
-              var targetController = angular.element(e.target).controller('uiSelect'); //To check if target is other ui-select
-              skipFocusser = targetController && targetController !== $select; //To check if target is other ui-select
-              if (!skipFocusser) skipFocusser =  ~focusableControls.indexOf(e.target.tagName.toLowerCase()); //Check if target is input, button or textarea
-            } else {
-              skipFocusser = true;
-            }
-            $select.close(skipFocusser);
+            $select.close(true);
             scope.$digest();
           }
           $select.clickTriggeredSelect = false;
@@ -298,7 +288,8 @@ uis.directive('uiSelect',
           }
 
           // Move the dropdown element back to its original location in the DOM
-          placeholder.replaceWith(element);
+          placeholder.after(element);
+          placeholder.remove();
           placeholder = null;
 
           element[0].style.position = '';
